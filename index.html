@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>UW Tile Map Lab 4</title>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js"></script>
+
+<style>
+body { margin:0; padding:0; }
+#map {
+position:absolute;
+top:0;
+bottom:0;
+width:100%;
+}
+.menu {
+position:absolute;
+z-index:1;
+background:white;
+padding:10px;
+margin:10px;
+border-radius:5px;
+}
+button {
+display:block;
+margin-bottom:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="menu">
+<b>UW Map Layers</b>
+<button onclick="toggleLayer('tiles1')">Basemap</button>
+<button onclick="toggleLayer('tiles2')">UW Points</button>
+<button onclick="toggleLayer('tiles3')">Combined</button>
+<button onclick="toggleLayer('tiles4')">UW Theme</button>
+</div>
+
+<div id="map"></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2VuZDBnIiwiYSI6ImNta3l3eXh2cDBjYnQzZ3B6d3E1MDJrc2EifQ.FzYTuZeZ1_BCWVc0yjHiBg';
+
+const map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/light-v11',
+center: [-122.306,47.655],
+zoom: 15
+});
+
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.ScaleControl());
+
+map.on('load', () => {
+
+// TILESET 1
+map.addSource('tiles1',{
+type:'raster',
+tiles:['assets/tileset_1/{z}/{x}/{y}.png'],
+tileSize:256
+});
+map.addLayer({
+id:'tiles1',
+type:'raster',
+source:'tiles1'
+});
+
+// TILESET 2
+map.addSource('tiles2',{
+type:'raster',
+tiles:['assets/tileset_2/{z}/{x}/{y}.png'],
+tileSize:256
+});
+map.addLayer({
+id:'tiles2',
+type:'raster',
+source:'tiles2',
+layout:{visibility:'none'}
+});
+
+// TILESET 3
+map.addSource('tiles3',{
+type:'raster',
+tiles:['assets/tileset_3/{z}/{x}/{y}.png'],
+tileSize:256
+});
+map.addLayer({
+id:'tiles3',
+type:'raster',
+source:'tiles3',
+layout:{visibility:'none'}
+});
+
+// TILESET 4
+map.addSource('tiles4',{
+type:'raster',
+tiles:['assets/tileset_4/{z}/{x}/{y}.png'],
+tileSize:256
+});
+map.addLayer({
+id:'tiles4',
+type:'raster',
+source:'tiles4',
+layout:{visibility:'none'}
+});
+
+});
+
+function toggleLayer(id){
+const vis = map.getLayoutProperty(id,'visibility');
+map.setLayoutProperty(id,'visibility',
+vis === 'visible' ? 'none' : 'visible');
+}
+
+</script>
+</body>
+</html>
