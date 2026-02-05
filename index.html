@@ -112,10 +112,11 @@ layout:{visibility:'none'}
 });
 
 function toggleLayer(id){
-const vis = map.getLayoutProperty(id,'visibility');
-map.setLayoutProperty(id,'visibility',
-vis === 'visible' ? 'none' : 'visible');
+  const vis = map.getLayoutProperty(id,'visibility');
+  const isVisible = (vis === 'visible' || vis === undefined || vis === null);
+  map.setLayoutProperty(id,'visibility', isVisible ? 'none' : 'visible');
 }
+
 
 </script>
 </body>
